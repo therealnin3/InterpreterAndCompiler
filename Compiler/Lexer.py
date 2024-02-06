@@ -1,3 +1,5 @@
+import sys
+from unittest import skip
 from Token import Token, TokenType
 
 
@@ -26,11 +28,12 @@ class Lexer:
     # Invalid token, Error
 
     def abort(self, message):
-        pass
+        sys.exit("Lexing error. " + message)
 
     # Skip whitespaces, except newlines
     def skipWhitespace(self):
-        pass
+        while (self.curChar == ' ' or self.curChar == '\t' or self.curChar == '\r'):
+            self.nextChar()
 
     # Skip comments
     def skipComment(self):
@@ -38,6 +41,9 @@ class Lexer:
 
     # Return next token
     def getToken(self):
+
+        self.skipWhitespace()
+
         if self.curChar == '+':
             token = Token(self.curChar, TokenType.PLUS)
         elif self.curChar == '-':
@@ -51,8 +57,7 @@ class Lexer:
         elif self.curChar == '\0':
             token = Token('', TokenType.EOF)
         else:
-            # Unknown token!
-            pass
+            self.abort("Unknown token: " + self.curChar)
 
         self.nextChar()
         return token

@@ -12,9 +12,9 @@ def main():
 
     # LOOP THROUGH FILE
     token = lexer.getToken()
-    while (token != TokenType.EOF):
+    while (token.tokenKind != TokenType.EOF):
         print(token.tokenKind)
-        lexer.getToken()
+        token = lexer.getToken()
 
 
 main()
