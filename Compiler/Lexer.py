@@ -1,3 +1,4 @@
+from curses.ascii import isdigit
 from pickle import NONE
 import sys
 from unittest import skip
@@ -119,6 +120,24 @@ class Lexer:
 
             text = self.source[startPos:self.curPos]  # End is not included!
             token = Token(text, TokenType.STRING)
+
+        # NUMBER {int}.{int}
+        elif self.curChar.isdigit():
+
+            startPos = self.curPos
+
+            while self.curChar.isdigit():
+                self.nextChar()
+            if self.curChar == '.':
+                if not self.peek().isdigit:
+                    self.abort("Illegal character in number.")
+                else:
+                    self.nextChar()
+                    while self.curChar.isdigit():
+                        self.nextChar()
+
+            digit = self.source[startPos:self.curPos]
+            token = Token(digit, TokenType.NUMBER)
 
         # NEW LINE \n
         elif self.curChar == '\n':
