@@ -129,7 +129,7 @@ class Lexer:
             while self.curChar.isdigit():
                 self.nextChar()
             if self.curChar == '.':
-                if not self.peek().isdigit:
+                if not self.peek().isdigit():
                     self.abort("Illegal character in number.")
                 else:
                     self.nextChar()
