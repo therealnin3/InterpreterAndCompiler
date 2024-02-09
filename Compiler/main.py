@@ -1,20 +1,22 @@
 from Lexer import Lexer
-from Token import TokenType
+from Parser import Parser
 
 
 def main():
 
-    with open('Input.txt', 'r') as file:
+    # OPEN FILE
+    with open('Input.tt', 'r') as file:
         content = file.read()
 
     # CREATE LEXER
     lexer = Lexer(content)
 
-    # LOOP THROUGH FILE
-    token = lexer.getToken()
-    while (token.tokenKind != TokenType.EOF):
-        print(token.tokenKind)
-        token = lexer.getToken()
+    # CREATE PARSER
+    parser = Parser(lexer)
+
+    print("> Tiny Compiler.")
+    parser.program()
+    print("> Parse completed.")
 
 
 main()

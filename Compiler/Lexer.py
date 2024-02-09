@@ -28,7 +28,6 @@ class Lexer:
             return self.source[self.curPos + 1]
 
     # Invalid token, Error
-
     def abort(self, message):
         sys.exit("Lexing error. " + message)
 
@@ -138,6 +137,22 @@ class Lexer:
 
             digit = self.source[startPos:self.curPos]
             token = Token(digit, TokenType.NUMBER)
+
+        # IDENTIFIERS (VARIABLES) AND KEYWORDS (STATEMENTS -> IF/PRINT/GOTO)
+        elif self.curChar.isalpha():
+            startPos = self.curPos
+            while self.peek().isalnum():
+                self.nextChar()
+
+            tokText = self.source[startPos: self.curPos + 1]
+            keyword = Token.checkIfKeyword(tokText)
+
+            # IDENTIFIER
+            if keyword == None:
+                token = Token(tokText, TokenType.IDENT)
+            # KEYWORD
+            else:
+                token = Token(tokText, keyword)
 
         # NEW LINE \n
         elif self.curChar == '\n':
